@@ -32,6 +32,12 @@ module HasSet
         if set_elements.blank?
           self[set_column] = 0
         else
+          if set_elements.kind_of? String
+            set_elements = set_elements.split(",").collect do |element|
+              element.strip!
+              enum_class.const_get(element)
+            end
+          end
           [set_elements].flatten.each do |element|
             unless element.kind_of? enum_class
               raise ArgumentError, "You must provide an element of the #{enum_class} Enumeration. You provided an element of the class #{element.class}."
@@ -68,7 +74,6 @@ module HasSet
           end
         end
       end
-      
     end
   end
 
