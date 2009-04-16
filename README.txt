@@ -1,8 +1,8 @@
-# has_set
+= has_set
 
 * http://github.com/pkwde/has_set
 
-## DESCRIPTION:
+== DESCRIPTION:
 
 A simple Gem to enable any `ActiveRecord::Base` object to store a set of attributes in a set like structure represented through a bitfield on the database level.
 
@@ -38,17 +38,17 @@ Here is a simple example of how to implement such a enumeration type while using
     end
     
 
-## REQUIREMENTS:
+== REQUIREMENTS:
 
 * `ActiveRecord`
 * `ActiveSupport`
 * `pkwde-renum` (*optionally*)
 
-## INSTALL:
+== INSTALL:
 
     sudo gem install pkwde-has_set --source http://gems.github.com
 
-## LICENSE:
+== LICENSE:
 
 (The MIT License)
 
