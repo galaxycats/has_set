@@ -32,13 +32,12 @@ module HasSet
         if set_elements.blank?
           self[set_column] = 0
         else
-          set_elements = [set_elements].flatten
-          set_elements.each do |element|
+          [set_elements].flatten.each do |element|
             unless element.kind_of? enum_class
               raise ArgumentError, "You must provide an element of the #{enum_class} Enumeration. You provided an element of the class #{element.class}."
             end
             
-            2**element.index & self[set_column] == 2**element.index ? next : self[set_column] += 2**element.index
+            2**element.bitfield_index & self[set_column] == 2**element.bitfield_index ? next : self[set_column] += 2**element.bitfield_index
           end
         end
       end
@@ -56,16 +55,16 @@ module HasSet
       
       enum_class.values.each do |enum|
         define_method("#{set_name.to_s.singularize}_#{enum.name.underscore}?") do
-          2**enum.index & self[set_column] == 2**enum.index ? true : false
+          2**enum.bitfield_index & self[set_column] == 2**enum.bitfield_index ? true : false
         end
         
         define_method("#{set_name.to_s.singularize}_#{enum.name.underscore}=") do |true_or_false|
-          current_value = (2**enum.index & self[set_column] == 2**enum.index)
+          current_value = (2**enum.bitfield_index & self[set_column] == 2**enum.bitfield_index)
           true_or_false = true  if true_or_false.to_s == "true" || (true_or_false.respond_to?(:to_i) && true_or_false.to_i == 1)
           true_or_false = false if true_or_false.to_s == "false" || (true_or_false.respond_to?(:to_i) && true_or_false.to_i == 0)
 
           if current_value != true_or_false
-            true_or_false ? self[set_column] += 2**enum.index : self[set_column] -= 2**enum.index
+            true_or_false ? self[set_column] += 2**enum.bitfield_index : self[set_column] -= 2**enum.bitfield_index
           end
         end
       end

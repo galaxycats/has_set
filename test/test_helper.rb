@@ -36,9 +36,44 @@ def teardown_db
   end
 end
 
-enum :Interests, [:Art, :Golf, :Sleeping, :Drinking, :Dating, :Shopping]
-enum :Drinks, [:Beer, :Wine, :CubaLibre]
-enum :MusicStyles, [:Pop, :Rock, :RnB]
+enum :Interests do
+  attr_reader :bitfield_index
+  
+  Art(0)
+  Golf(1)
+  Sleeping(2)
+  Drinking(3)
+  Dating(4)
+  Shopping(5)
+  
+  def init(bitfield_index)
+    @bitfield_index = bitfield_index
+  end
+end
+
+enum :MusicStyles do
+  attr_reader :bitfield_index
+  
+  Rock(0)
+  Pop(1)
+  RnB(2)
+  
+  def init(bitfield_index)
+    @bitfield_index = bitfield_index
+  end
+end
+
+enum :Drinks do
+  attr_reader :bitfield_index
+  
+  Beer(0)
+  Wine(1)
+  CubaLibre(2)
+  
+  def init(bitfield_index)
+    @bitfield_index = bitfield_index
+  end
+end
 
 setup_db # Init the database for class creation
 
