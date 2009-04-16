@@ -57,6 +57,20 @@ class HasSetTest < Test::Unit::TestCase
     assert_equal [Interests::Dating, Interests::Shopping], person.interests
   end
   
+  def test_should_set_elements_by_string_names
+    person = Person.new(:fullname => "Jessie Summers", :interests => "Dating, Shopping")
+    assert_equal [Interests::Dating, Interests::Shopping], person.interests
+  end
+  
+  def test_should_set_elements_by_string_name
+    person = Person.new(:fullname => "Jessie Summers", :interests => "Dating")
+    assert_equal [Interests::Dating], person.interests
+  end
+  
+  def test_should_raise_exception_if_strings_cannot_be_constantized
+    assert_raise(NameError) { Person.new(:fullname => "Jessie Summers", :interests => "Dadding, Shopping") }
+  end
+  
   def test_should_provide_the_name_of_the_bitfield_column
     party = Party.new(:location => "Beach House", :drinks => [Drinks::Beer, Drinks::CubaLibre])
     assert party.save, "Party should save!"
