@@ -4,7 +4,6 @@ README.txt
 Rakefile
 has_set.gemspec
 lib/has_set.rb
-pkwde-has_set.gemspec
 script/console
 script/destroy
 script/generate
