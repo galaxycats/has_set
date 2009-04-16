@@ -30,7 +30,6 @@ class HasSetTest < Test::Unit::TestCase
   end
   
   def test_should_throw_argument_error_if_there_is_no_enumeratable_class_to_take_the_set_entries_from
-    Person.expects(:columns_hash).returns({"hobbies_bitfield" => stub(:type => :integer)})
     assert_raise(NameError) { Person.has_set :hobbies }
   end
   
@@ -51,10 +50,6 @@ class HasSetTest < Test::Unit::TestCase
     person.interests = nil
     assert !person.interest_shopping?, "Person should not be interested in shopping."
     assert !person.interest_dating?, "Person should not be interested in dating."
-  end
-  
-  def test_should_raise_active_record_error_if_the_type_of_the_bitfiel_column_is_not_integer
-    assert_raise(ActiveRecord::ActiveRecordError) { Punk.has_set :bad_habits }
   end
   
   def test_should_get_all_set_elements_of_a_certain_object

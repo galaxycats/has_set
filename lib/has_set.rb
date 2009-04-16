@@ -5,7 +5,7 @@ require 'activesupport'
 require 'activerecord'
 
 module HasSet
-  VERSION = '0.0.1'
+  VERSION = '0.0.2'
   
   module ClassMethods
     
@@ -17,10 +17,6 @@ module HasSet
     def has_set(set_name, options = {})
       
       set_column = options.has_key?(:column_name) ? options[:column_name].to_s : "#{set_name}_bitfield"
-      
-      unless self.columns_hash[set_column.to_s].type == :integer
-        raise ActiveRecord::ActiveRecordError, "The column '#{set_column}' to store the the set must be of type integer, because we store them in a bitfield."
-      end
       
       begin
         enum_class = options.has_key?(:enum_class) ? options[:enum_class] : Object.const_get(set_name.to_s.camelcase)
