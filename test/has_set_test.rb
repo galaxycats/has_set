@@ -57,6 +57,12 @@ class HasSetTest < Test::Unit::TestCase
     assert_equal [Interests::Dating, Interests::Shopping], person.interests
   end
   
+  def test_should_reset_values_if_setter_is_used
+    person = Person.new(:fullname => "Jessie Summers", :interests => [Interests::Dating])
+    person.interests = Interests::Shopping
+    assert_equal [Interests::Shopping], person.interests
+  end
+  
   def test_should_set_elements_by_string_names
     person = Person.new(:fullname => "Jessie Summers", :interests => "Dating, Shopping")
     assert_equal [Interests::Dating, Interests::Shopping], person.interests
@@ -77,6 +83,11 @@ class HasSetTest < Test::Unit::TestCase
     party.reload
     assert party.drink_beer?, "Party should offer beer."
     assert party.drink_cuba_libre?, "Party should offer cuba libre."
+  end
+  
+  def test_should_have_to_s_method
+    party = Party.new(:location => "Beach House", :drinks => [Drinks::Beer, Drinks::CubaLibre])
+    assert_equal "Beer, CubaLibre", party.drinks.to_s
   end
   
   def test_should_provide_the_name_of_the_enum_class

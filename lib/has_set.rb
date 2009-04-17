@@ -25,9 +25,8 @@ module HasSet
       end
       
       define_method("#{set_name}=") do |set_elements|
-        if set_elements.blank?
-          self[set_column] = 0
-        else
+        self[set_column] = 0
+        unless set_elements.blank?
           if set_elements.kind_of? String
             set_elements = set_elements.split(",").collect do |element|
               element.strip!
@@ -48,10 +47,17 @@ module HasSet
         if self[set_column] == 0
           return []
         else
-          enum_class.values.inject([]) do |set_elements, enum_element|
+          set_elements = enum_class.values.inject([]) do |set_elements, enum_element|
             set_elements << enum_element if send("#{set_name.to_s.singularize}_#{enum_element.name.underscore}?")
             set_elements
           end
+          # special to_s method for element-array
+          class <<set_elements
+            def to_s
+              self.collect { |element| "#{element.name}" }.join(", ")
+            end
+          end
+          return set_elements
         end
       end
       
