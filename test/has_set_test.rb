@@ -82,6 +82,7 @@ class HasSetTest < Test::Unit::TestCase
     assert party.save, "Party should save!"
     party.reload
     assert party.drink_beer?, "Party should offer beer."
+    assert party.drink_beer, "Party should offer beer."
     assert party.drink_cuba_libre?, "Party should offer cuba libre."
   end
   
@@ -102,6 +103,10 @@ class HasSetTest < Test::Unit::TestCase
   def test_should_validate_that_only_elements_from_the_given_enum_are_used_in_the_set
     person = Person.new(:fullname => "Jessie Summers", :interests => Interests::Dating)
     assert_raise(ArgumentError) { person.interests = Drinks::Beer }
+  end
+  
+  def test_should_list_all_available_enum_elements
+    assert_equal ["drink_beer", "drink_cuba_libre", "drink_wine"], Party.new.available_drinks
   end
   
 end

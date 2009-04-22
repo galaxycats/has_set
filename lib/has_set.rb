@@ -5,7 +5,7 @@ require 'activesupport'
 require 'activerecord'
 
 module HasSet
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
   
   module ClassMethods
     
@@ -61,10 +61,17 @@ module HasSet
         end
       end
       
+      # TODO: This should be a class method
+      define_method("available_#{set_name.to_s}") do
+        self.methods.grep(/#{set_name.to_s.singularize}_\w+[^\?=]$/).sort
+      end
+      
       enum_class.values.each do |enum|
         define_method("#{set_name.to_s.singularize}_#{enum.name.underscore}?") do
           2**enum.bitfield_index & self[set_column] == 2**enum.bitfield_index ? true : false
         end
+        
+        alias_method :"#{set_name.to_s.singularize}_#{enum.name.underscore}", :"#{set_name.to_s.singularize}_#{enum.name.underscore}?"
         
         define_method("#{set_name.to_s.singularize}_#{enum.name.underscore}=") do |true_or_false|
           current_value = (2**enum.bitfield_index & self[set_column] == 2**enum.bitfield_index)
