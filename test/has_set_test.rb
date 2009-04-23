@@ -109,4 +109,10 @@ class HasSetTest < Test::Unit::TestCase
     assert_equal ["drink_beer", "drink_cuba_libre", "drink_wine"], Party.new.available_drinks
   end
   
+  def test_should_extend_enum_with_fieldname_method
+    assert_equal "drink_cuba_libre", Drinks::CubaLibre.field_name
+    assert_equal "drink_beer", Drinks::Beer.field_name
+    assert_equal "drink_wine", Drinks::Wine.field_name
+  end
+  
 end

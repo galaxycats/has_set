@@ -24,6 +24,13 @@ module HasSet
         raise NameError, "There ist no class to take the set entries from (#{ne.message})."
       end
       
+      # Extend enum_class with field_name method
+      enum_class.class_eval <<-EOF
+        def field_name
+          '#{set_name.to_s.singularize}_' + self.name.underscore
+        end
+      EOF
+      
       define_method("#{set_name}=") do |set_elements|
         self[set_column] = 0
         unless set_elements.blank?
