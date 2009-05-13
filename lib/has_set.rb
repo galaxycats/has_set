@@ -5,7 +5,7 @@ require 'activesupport'
 require 'activerecord'
 
 module HasSet
-  VERSION = '0.0.3'
+  VERSION = '0.0.4'
   
   module ClassMethods
     
